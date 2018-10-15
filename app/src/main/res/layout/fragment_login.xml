@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgLogin"
+    android:padding="20dp">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGN IN"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        android:fontFamily="@font/pacifico"
+        android:paddingBottom="30dp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_above="@id/inputlayout"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/inputlayout"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/input_login"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/ename"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:fontFamily="sans-serif-light"
+                android:hint="Nhập tên tài khoản"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColorHint="@color/gray_color" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/input_login"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/epass"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:fontFamily="sans-serif-light"
+                android:hint="Nhập mật khẩu"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColorHint="@color/gray_color" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_login"
+            android:text="Tiếp tục"
+            android:id="@+id/btnlogin"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:paddingTop="10dp"
+            android:text="Quên mật khẩu"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:gravity="center"
+            android:textSize="12dp"
+            android:textColor="@color/white"
+            android:paddingTop="5dp"
+            android:text="----------------***----------------"/>
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:text="BƯU CHÍNH MIỀN NAM"/>
+
+
+
+</RelativeLayout>

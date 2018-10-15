@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MNPOSTAPP</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="textChart">Thông tin phát hàng</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="error_image_null">Your image is null, please select or take one</string>
+    <string name="error_init_magicalcamera">Please initialized magical camera, maybe in static context for use in all activity</string>
+
+</resources>
