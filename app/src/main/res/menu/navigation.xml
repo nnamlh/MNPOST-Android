@@ -15,10 +15,10 @@
         android:title="Đơn hàng" />
 
     <item
-        android:id="@+id/cod"
-        android:icon="@drawable/ic_cod_black_24dp"
+        android:id="@+id/notification"
+        android:icon="@drawable/ic_notifications"
         app:showAsAction="ifRoom"
-        android:title="Tiền hàng" />
+        android:title="Thông báo" />
 
     <item
         android:id="@+id/setting"

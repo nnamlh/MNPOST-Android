@@ -6,7 +6,10 @@ import com.mnpost.app.data.source.remote.APIKeyResponse;
 import com.mnpost.app.data.source.remote.GetMailerDeliveryResponse;
 import com.mnpost.app.data.source.remote.ReponseListCommonInfo;
 import com.mnpost.app.data.source.remote.ResponseWithListText;
+import com.mnpost.app.data.source.remote.TakeMailerDetailResponse;
+import com.mnpost.app.data.source.remote.TakeMailerResponse;
 import com.mnpost.app.data.source.remote.UpdateDeliverySend;
+import com.mnpost.app.data.source.remote.UpdateTakeMailerSend;
 import com.mnpost.app.data.source.remote.UserInfoReponse;
 
 import io.reactivex.Completable;
@@ -54,5 +57,19 @@ public interface ApiService {
     //-- update mailer
     @POST("api/mailerapi/UpdateDelivery")
     Single<ResponseInfo> updateDeliveryInfo(@Body UpdateDeliverySend info);
+
+
+    // ;ay hang
+    @GET("api/MailerAPI/GetTakeMailerInDay")
+    Single<TakeMailerResponse> getTakeMailers();
+
+    @GET("api/MailerAPI/GetDetails")
+    Single<TakeMailerDetailResponse> getTakeMailerDetails(@Query("documentID") String documentID);
+
+
+    @POST("api/MailerAPI/UpdateTakeMailer")
+    Single<ResponseInfo> updateTakeMailer(@Body UpdateTakeMailerSend info);
+
+
 
 }

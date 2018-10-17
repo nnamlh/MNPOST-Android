@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.mnpost.app.data.UserInfo;
 import com.mnpost.app.data.source.remote.GetMailerDeliveryResponse;
+import com.mnpost.app.data.source.remote.TakeMailerResponse;
 import com.mnpost.app.data.source.remote.UserInfoReponse;
 import com.mnpost.app.updatedelivery.UpdateDeliveryContract;
 import com.mnpost.app.updatedelivery.UpdateDeliveryFragment;
@@ -16,6 +17,7 @@ import com.mnpost.app.util.Const;
 import com.mnpost.app.util.PrefUtils;
 import com.mnpost.app.util.Utils;
 
+import io.reactivex.Scheduler;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -48,14 +50,27 @@ public class MailerPresenter implements MailerContract.Presenter {
 
         ApiClient.resetApiClient();
         apiService = ApiClient.getClient(mMailerView.getMContext()).create(ApiService.class);
+        getDelivery();
+        getTake();
 
+
+
+    }
+
+    @Override
+    public void unsubscribe() {
+        mCompositeDisposable.clear();
+    }
+
+    @Override
+    public void getDelivery() {
         String employeeId = UserInfo.getInstance(mMailerView.getMContext()).getEmployeeID();
 
         mCompositeDisposable.add(apiService.getMailerDelivery(employeeId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<GetMailerDeliveryResponse>() {
             @Override
             public void onSuccess(GetMailerDeliveryResponse getMailerDeliveryResponse) {
                 if(getMailerDeliveryResponse.getData() != null)
-                    mMailerView.refeshData(getMailerDeliveryResponse.getData());
+                    mMailerView.refeshDelivery(getMailerDeliveryResponse.getData());
 
                 mMailerView.stopRefeshWipe();
             }
@@ -66,11 +81,25 @@ public class MailerPresenter implements MailerContract.Presenter {
                 mMailerView.stopRefeshWipe();
             }
         }));
-
     }
 
     @Override
-    public void unsubscribe() {
-        mCompositeDisposable.clear();
+    public void getTake() {
+        mCompositeDisposable.add(apiService.getTakeMailers().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<TakeMailerResponse>(){
+
+            @Override
+            public void onSuccess(TakeMailerResponse takeMailerResponse) {
+
+                mMailerView.refeshTake(takeMailerResponse.getData());
+
+                mMailerView.stopRefeshWipe();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Utils.showError(e, mMailerView.getMContext());
+                mMailerView.stopRefeshWipe();
+            }
+        }));
     }
 }

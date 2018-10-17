@@ -8,4 +8,8 @@
     <color name="gray_color">#DEDEDE</color>
     <color name="white">#ffffff</color>
     <color name="control_background">#cc4285f4</color>
+
+
+    <color name="green">#76FF03</color>
+    <color name="red">#DD2C00</color>
 </resources>

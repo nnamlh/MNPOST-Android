@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
                     new StatisticalPresenter(statisFrag);
                     navigation.getMenu().findItem(R.id.home).setChecked(true);
                     break;
-                case R.id.cod:
+                case R.id.notification:
                     navigation.getMenu().findItem(R.id.cod).setChecked(true);
                     break;
                 case R.id.mailer:

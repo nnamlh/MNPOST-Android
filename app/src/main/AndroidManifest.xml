@@ -55,6 +55,11 @@
             android:theme="@style/AppTheme.ThemeUser"/>
 
         <activity
+            android:name=".updatetake.UpdateTakeActivity"
+            android:theme="@style/AppTheme.ThemeUser"/>
+
+
+        <activity
             android:name=".camera.CameraActivity"
             android:theme="@style/MaterialTheme"/>
     </application>

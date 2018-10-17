@@ -13,6 +13,7 @@ import com.frosquivel.magicalcamera.MagicalCamera;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.mnpost.app.R;
 import com.mnpost.app.data.source.remote.MailerDeliveryInfo;
+import com.mnpost.app.data.source.remote.TakeMailerInfo;
 
 import java.text.NumberFormat;
 
@@ -112,5 +113,6 @@ public class Utils {
 
     //
     public static MailerDeliveryInfo DeliveryInfoCurrent;
+    public static TakeMailerInfo TakeMailerInfo;
 
 }

@@ -12,21 +12,27 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mnpost.app.R;
 import com.mnpost.app.data.source.remote.MailerDeliveryInfo;
+import com.mnpost.app.data.source.remote.TakeMailerInfo;
 import com.mnpost.app.deliveryhistory.DeliveryHistoryActivity;
 import com.mnpost.app.main.ScanBarcodeZXing;
 import com.mnpost.app.updatedelivery.UpdateDeliveryActivity;
+import com.mnpost.app.updatetake.UpdateTakeActivity;
 import com.mnpost.app.util.DialogLoading;
 import com.mnpost.app.util.Utils;
 
@@ -36,7 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MailerFragment extends Fragment implements MailerContract.View, MailerDeliveryAdapter.MailerDeliveryAdapterListener {
+public class MailerFragment extends Fragment implements MailerContract.View, MailerDeliveryAdapter.MailerDeliveryAdapterListener , TakeMailerAdapter.AdapterListener{
 
     MailerContract.Presenter mPresenter;
 
@@ -51,6 +57,9 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
     @BindView(R.id.btntake)
     Button btnTake;
 
+    @BindView(R.id.esearch)
+    EditText eSearch;
+
     @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -64,6 +73,16 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
     MailerDeliveryAdapter mAdapter;
 
     List<MailerDeliveryInfo> mailerDeliveryInfos;
+
+    List<MailerDeliveryInfo> mailerDeliveryInfoTemps;
+
+    TakeMailerAdapter mTakeAdapter;
+    List<TakeMailerInfo> takeMailerInfos;
+
+    @BindView(R.id.lsearch)
+    RelativeLayout lSearch;
+
+    boolean deliveryChoose = true;
 
     public static MailerFragment newInstance() {
         return new MailerFragment();
@@ -90,32 +109,82 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
                 openScanBarcode();
             }
         });
-
+        mailerDeliveryInfoTemps = new ArrayList<>();
         mailerDeliveryInfos = new ArrayList<>();
 
+        takeMailerInfos = new ArrayList<>();
+
         mAdapter = new MailerDeliveryAdapter(getContext(), mailerDeliveryInfos, this);
+        mTakeAdapter = new TakeMailerAdapter(getMContext(), takeMailerInfos, this);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new MailerFragment.GridSpacingItemDecoration(1, dpToPx(5), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.subscribe();
+               if(deliveryChoose) {
+                   mPresenter.getDelivery();
+               } else {
+                   mPresenter.getTake();
+               }
             }
         });
 
         btnHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DeliveryHistoryActivity.class);
-                startActivity(intent);
+               if(deliveryChoose) {
+                   Intent intent = new Intent(getActivity(), DeliveryHistoryActivity.class);
+                   startActivity(intent);
+               } else {
+                   Toast.makeText(getMContext(), "Đang xây dưng", Toast.LENGTH_SHORT).show();
+               }
             }
         });
 
+        btnDelivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnDelivery.setBackgroundResource(R.drawable.button_border_active);
+                btnTake.setBackgroundResource(R.drawable.button_border_normal);
+                btnScan.setVisibility(View.VISIBLE);
+                lSearch.setVisibility(View.VISIBLE);
+                deliveryChoose = true;
+                recyclerView.setAdapter(mAdapter);
+            }
+        });
+
+        btnTake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnDelivery.setBackgroundResource(R.drawable.button_border_normal);
+                btnTake.setBackgroundResource(R.drawable.button_border_active);
+                btnScan.setVisibility(View.GONE);
+                lSearch.setVisibility(View.GONE);
+                deliveryChoose = false;
+                recyclerView.setAdapter(mTakeAdapter);
+            }
+        });
+
+        eSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchMailer(eSearch.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return view;
     }
 
@@ -135,6 +204,10 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
                 Toast.makeText(getContext(), "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+
+                eSearch.setText(result.getContents());
+                searchMailer(result.getContents());
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -156,7 +229,7 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
     @Override
     public void openScanBarcode() {
         IntentIntegrator integrator = new IntentIntegrator(getActivity());
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         integrator.setCaptureActivity(ScanBarcodeZXing.class);
         integrator.setPrompt("MNPOST");
         integrator.setOrientationLocked(false);
@@ -167,18 +240,52 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
     }
 
     @Override
-    public void refeshData(List<MailerDeliveryInfo> mailerDeliveryInfoList) {
+    public void refeshDelivery(List<MailerDeliveryInfo> mailerDeliveryInfoList) {
         mailerDeliveryInfos.clear();
+        mailerDeliveryInfoTemps.clear();
+        mailerDeliveryInfoTemps.addAll(mailerDeliveryInfoList);
         mailerDeliveryInfos.addAll(mailerDeliveryInfoList);
-        mAdapter.notifyDataSetChanged();
-
         btnDelivery.setText("PHÁT HÀNG (" + mailerDeliveryInfoList.size() + ")");
 
+        if(deliveryChoose) {
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            btnDelivery.setBackgroundResource(R.drawable.button_border_active);
+            btnTake.setBackgroundResource(R.drawable.button_border_normal);
+        }
+
+    }
+
+    @Override
+    public void refeshTake(List<TakeMailerInfo> takeMailerInfos) {
+        this.takeMailerInfos.clear();
+        this.takeMailerInfos.addAll(takeMailerInfos);
+        btnTake.setText("LẤY HÀNG (" + this.takeMailerInfos.size() + ")");
+
+        if(!deliveryChoose) {
+            recyclerView.setAdapter(mTakeAdapter);
+            mTakeAdapter.notifyDataSetChanged();
+            btnDelivery.setBackgroundResource(R.drawable.button_border_normal);
+            btnTake.setBackgroundResource(R.drawable.button_border_active);
+        }
     }
 
     @Override
     public void stopRefeshWipe() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void searchMailer(String code) {
+        mailerDeliveryInfos.clear();
+
+        for(MailerDeliveryInfo info : mailerDeliveryInfoTemps) {
+            if(info.getMailerID().contains(code)) {
+                mailerDeliveryInfos.add(info);
+            }
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -193,6 +300,13 @@ public class MailerFragment extends Fragment implements MailerContract.View, Mai
     public void onSelected(MailerDeliveryInfo contact) {
         Utils.DeliveryInfoCurrent = contact;
         Intent intent = new Intent(getActivity(), UpdateDeliveryActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onSelected(TakeMailerInfo contact) {
+        Utils.TakeMailerInfo = contact;
+        Intent intent = new Intent(getActivity(), UpdateTakeActivity.class);
         startActivity(intent);
     }
 

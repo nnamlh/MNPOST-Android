@@ -57,7 +57,7 @@ public class MailerDeliveryAdapter extends RecyclerView.Adapter<MailerDeliveryAd
         holder.eDistrict.setText(info.getRecieverDistrictID());
 
         holder.eTime.setText(info.getDocumentDate());
-    }
+}
 
     @Override
     public int getItemCount() {
