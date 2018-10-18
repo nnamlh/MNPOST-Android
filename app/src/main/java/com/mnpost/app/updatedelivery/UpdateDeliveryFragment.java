@@ -6,14 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +23,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.frosquivel.magicalcamera.MagicalCamera;
-import com.frosquivel.magicalcamera.MagicalPermissions;
 import com.mnpost.app.R;
 import com.mnpost.app.camera.CameraActivity;
 import com.mnpost.app.data.source.CommonData;
 import com.mnpost.app.data.source.remote.UpdateDeliverySend;
-import com.mnpost.app.util.Const;
 import com.mnpost.app.util.DialogLoading;
 import com.mnpost.app.util.Utils;
 import com.synnapps.carouselview.CarouselView;
@@ -45,9 +40,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -110,22 +102,15 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
 
     @BindView(R.id.rchoosestt)
     RadioGroup rGroupStatus;
-    private MagicalCamera magicalCamera;
-    private MagicalPermissions magicalPermissions;
-    private int RESIZE_PHOTO_PIXELS_PERCENTAGE = 30;
 
-    String[] permissions = new String[]{
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };
     int statusChoose = 4; // da phat xong
 
     public static UpdateDeliveryFragment newInstance() {
         return new UpdateDeliveryFragment();
     }
+
+
+
 
 
     ImageListener imageListener = new ImageListener() {
@@ -177,13 +162,11 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
         eReciver.setEnabled(true);
         eNote.setEnabled(false);
 
-        magicalPermissions = new MagicalPermissions(this, permissions);
-        magicalCamera = new MagicalCamera(activity, RESIZE_PHOTO_PIXELS_PERCENTAGE, magicalPermissions);
-
         btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takePhoto();
+               takePhoto();
+
             }
         });
 
@@ -310,8 +293,8 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
 
     @Override
     public void takePhoto() {
-
-        magicalCamera.takeFragmentPhoto(UpdateDeliveryFragment.this);
+        Intent intentCamenra = new Intent(getMContext(), CameraActivity.class);
+        startActivityForResult(intentCamenra, UpdateDeliveryActivity.OPEN_CAMERA_RESULT_ID);
     }
 
     @Override
@@ -328,10 +311,12 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
     @Override
     public void showImage(Bitmap bitmap) {
 
-        bitmaps.add(bitmap);
+       if(bitmap != null){
+           bitmaps.add(bitmap);
 
-        carouselView.setImageListener(imageListener);
-        carouselView.setPageCount(bitmaps.size());
+           carouselView.setImageListener(imageListener);
+           carouselView.setPageCount(bitmaps.size());
+       }
 
     }
 
@@ -420,30 +405,20 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //this is for rotate picture in this method
-        //magicalCamera.resultPhoto(requestCode, resultCode, data, MagicalCamera.ORIENTATION_ROTATE_180);
+         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            //you should to call the method ever, for obtain the bitmap photo (= magicalCamera.getPhoto())
-            magicalCamera.resultPhoto(requestCode, resultCode, data);
-
-            if (Utils.validateMagicalCameraNull(activity, magicalCamera)) {
-                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss",
-                        Locale.getDefault()).format(new Date());
-                String path = magicalCamera.savePhotoInMemoryDevice(magicalCamera.getPhoto(), "MNPOST" + timeStamp, "MNPOST", MagicalCamera.JPEG, true);
-                imagePaths.add(path);
-
-                showImage(magicalCamera.getPhoto());
+            if (requestCode == UpdateDeliveryActivity.OPEN_CAMERA_RESULT_ID) {
+                String path = data.getExtras().getString("PATH");
+                if(path != null) {
+                    imagePaths.add(path);
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+                    showImage(bitmap);
+                }
             }
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Map<String, Boolean> map = magicalPermissions.permissionResult(requestCode, permissions, grantResults);
-        for (String permission : map.keySet()) {
-            Log.d("PERMISSIONS", permission + " was: " + map.get(permission));
         }
     }
 

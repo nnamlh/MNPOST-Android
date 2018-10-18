@@ -8,8 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.frosquivel.magicalcamera.MagicalCamera;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.mnpost.app.R;
 import com.mnpost.app.data.source.remote.MailerDeliveryInfo;
@@ -65,24 +63,7 @@ public class Utils {
 
         dialog.show();
     }
-    public static boolean validateMagicalCameraNull(Context context, MagicalCamera magicalCamera){
-        if(magicalCamera != null) {
-            if (magicalCamera.getPhoto() != null) {
-                return true;
-            }else{
-                Toast.makeText(context,R.string.error_image_null, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }else{
-            Toast.makeText(context,R.string.error_init_magicalcamera, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-    /**
-     * View Snack bar for simple form
-     * @param message the message to shown
-     * @param view the principal view (layout)
-     */
+
     public static void viewSnackBar(String message, View view){
         Snackbar snackbar =  Snackbar.make(view, message,
                 Snackbar.LENGTH_LONG).setDuration(Snackbar.LENGTH_LONG);
@@ -114,5 +95,7 @@ public class Utils {
     //
     public static MailerDeliveryInfo DeliveryInfoCurrent;
     public static TakeMailerInfo TakeMailerInfo;
+
+    public static String PATH_SAVE = "";
 
 }

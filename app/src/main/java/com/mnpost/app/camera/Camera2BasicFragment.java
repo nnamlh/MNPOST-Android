@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -42,6 +43,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -65,11 +67,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -123,12 +128,12 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Max preview width that is guaranteed by Camera2 API
      */
-    private static final int MAX_PREVIEW_WIDTH = 1920;
+    private static final int MAX_PREVIEW_WIDTH = 1280;
 
     /**
      * Max preview height that is guaranteed by Camera2 API
      */
-    private static final int MAX_PREVIEW_HEIGHT = 1080;
+    private static final int MAX_PREVIEW_HEIGHT = 720;
 
     /**
      * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
@@ -436,7 +441,35 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+        File wallpaperDirectory = null;
+
+        try {
+            wallpaperDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/MNPOST/");
+        } catch (Exception ev) {
+            try {
+                wallpaperDirectory = Environment.getExternalStorageDirectory();
+            } catch (Exception ex) {
+                try {
+                    wallpaperDirectory = Environment.getDataDirectory();
+                } catch (Exception e) {
+                    wallpaperDirectory = Environment.getRootDirectory();
+                }
+            }
+        }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss",
+                Locale.getDefault()).format(new Date());
+
+        if (wallpaperDirectory != null) {
+            if (!wallpaperDirectory.exists()) {
+                wallpaperDirectory.exists();
+                wallpaperDirectory.mkdirs();
+            }
+            mFile = new File(wallpaperDirectory, "MNPOST" + timeStamp + ".jpg");
+        } else {
+            mFile = new File(getActivity().getExternalFilesDir(null), "MNPOST" + timeStamp + ".jpg");
+        }
+
     }
 
     @Override
@@ -511,9 +544,10 @@ public class Camera2BasicFragment extends Fragment
                 }
 
                 // For still image captures, we use the largest available size.
-                Size largest = Collections.max(
+               /* Size largest = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                        new CompareSizesByArea());
+                        new CompareSizesByArea());*/
+                Size largest = new Size(1280, 720);
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
@@ -839,7 +873,14 @@ public class Camera2BasicFragment extends Fragment
                                                @NonNull TotalCaptureResult result) {
                     showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
-                    unlockFocus();
+
+                    // return result
+                    Intent returnIntent = getActivity().getIntent();
+                    returnIntent.putExtra("PATH",mFile.getAbsolutePath());
+                    getActivity().setResult(Activity.RESULT_OK,returnIntent);
+                    getActivity().finish();
+
+                   // unlockFocus();
                 }
             };
 
@@ -952,6 +993,7 @@ public class Camera2BasicFragment extends Fragment
                         e.printStackTrace();
                     }
                 }
+
             }
         }
 

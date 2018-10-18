@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity {
                     navigation.getMenu().findItem(R.id.home).setChecked(true);
                     break;
                 case R.id.notification:
-                    navigation.getMenu().findItem(R.id.cod).setChecked(true);
+                    navigation.getMenu().findItem(R.id.notification).setChecked(true);
                     break;
                 case R.id.mailer:
                     MailerFragment mailerFrag = MailerFragment.newInstance();
