@@ -35,7 +35,7 @@ public interface ApiService {
 
     // user info
     @GET("api/userapi/getinfo")
-    Single<UserInfoReponse> getUserInfo(@Query("user") String user);
+    Single<UserInfoReponse> getUserInfo(@Query("firebaseId") String firebaseId);
 
     // mailer delivery
     @GET("api/mailerapi/GetDeliveryByEmployee")

@@ -8,6 +8,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.mnpost.app.BaseActivity;
 import com.mnpost.app.R;
+import com.mnpost.app.data.source.ResponseInfo;
 import com.mnpost.app.main.mailer.MailerFragment;
 import com.mnpost.app.main.mailer.MailerPresenter;
 import com.mnpost.app.main.setting.SettingFragment;
@@ -24,18 +26,27 @@ import com.mnpost.app.main.setting.SettingPresenter;
 import com.mnpost.app.main.statistical.StatisticalFragment;
 import com.mnpost.app.main.statistical.StatisticalPresenter;
 import com.mnpost.app.util.ActivityUtils;
+import com.mnpost.app.util.ApiClient;
+import com.mnpost.app.util.ApiService;
 import com.mnpost.app.util.BottomNavigationBehavior;
+import com.mnpost.app.util.Const;
+import com.mnpost.app.util.PrefUtils;
 
 import java.lang.reflect.Field;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
     BottomNavigationView navigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -108,6 +119,5 @@ public class MainActivity extends BaseActivity {
             Log.e("BNVHelper", "Unable to change value of shift mode", e);
         }
     }
-
 
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "910534126843",
+    "firebase_url": "https://miennampost-2956d.firebaseio.com",
+    "project_id": "miennampost-2956d",
+    "storage_bucket": "miennampost-2956d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910534126843:android:2e6c3b0d9c87b3ee",
+        "android_client_info": {
+          "package_name": "com.mnpost.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910534126843-9b9rq5mi0cogjgppr8824pme7ok5c6ta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFJR0SFSrsbSjv1uFSatt2seiRq8pFz2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

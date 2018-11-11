@@ -1,12 +1,12 @@
 package com.mnpost.app.Splash;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.mnpost.app.BaseActivity;
 import com.mnpost.app.R;
 import com.mnpost.app.util.ActivityUtils;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

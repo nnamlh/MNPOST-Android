@@ -1,11 +1,14 @@
 package com.mnpost.app.Splash;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+import com.mnpost.app.data.UserInfo;
 import com.mnpost.app.data.source.remote.UserInfoReponse;
 import com.mnpost.app.util.ApiClient;
 import com.mnpost.app.util.ApiService;
@@ -60,6 +63,12 @@ public class SplashPresenter implements SplashContract.Presenter {
 
         return true;
     }
+    protected String getFirebaseReg() {
+        SharedPreferences pref = mSplashView.getMContext().getSharedPreferences(Const.SHARED_PREF, 0);
+        String token = pref.getString("regId", "");
+
+        return  token;
+    }
 
     @Override
     public void submitCheck() {
@@ -67,8 +76,9 @@ public class SplashPresenter implements SplashContract.Presenter {
         apiService = ApiClient.getClient(mSplashView.getMContext()).create(ApiService.class);
 
         String user = PrefUtils.getUser(mSplashView.getMContext());
+        final String firebaseID = getFirebaseReg();
 
-        apiService.getUserInfo(user).subscribeOn(Schedulers.io())
+        apiService.getUserInfo(firebaseID).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new SingleObserver<UserInfoReponse>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -81,9 +91,22 @@ public class SplashPresenter implements SplashContract.Presenter {
                     Toast.makeText(mSplashView.getMContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
                     mSplashView.showLoginForm();
                 } else {
+
+
+
+                    if (!TextUtils.isEmpty(firebaseID)) {
+                        String departmentID = UserInfo.getInstance(mSplashView.getMContext()).getDepartment();
+                        if(!TextUtils.isEmpty(departmentID)) {
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(departmentID);
+                        }
+
+                        FirebaseMessaging.getInstance().subscribeToTopic(response.getDepartment());
+                    }
+
                     // save user info
                     String storeInfo = response.getEmployeeCode() + "|" + response.getFullName()+ "|" + response.getDepartment();
                     PrefUtils.storeData(mSplashView.getMContext(), storeInfo, Const.USER_INFO_KEY);
+
                     mSplashView.showNextTask();
                 }
             }
