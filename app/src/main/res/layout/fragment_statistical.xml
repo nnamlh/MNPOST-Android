@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/ltitle"
@@ -23,6 +23,16 @@
             android:textSize="18dp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/btnLoad"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_refresh_black_24dp" />
+
+
     </RelativeLayout>
 
 
@@ -30,51 +40,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:text="Thông tin phát"
             android:textColor="#1976D2"
             android:textSize="14dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:textStyle="normal" />
 
 
-        <Spinner
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_time"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/input_mailer_search"
-            android:layout_height="20dp" />
-
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
-            android:layout_below="@id/spinner_time"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_centerVertical="true"
+            android:background="@drawable/input_mailer_search" />
 
     </RelativeLayout>
 
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:paddingTop="10dp"
+        android:orientation="vertical"
         android:paddingLeft="5dp"
+        android:paddingTop="10dp"
         android:paddingRight="5dp"
-        android:paddingBottom="10dp"
-        android:orientation="vertical">
+        android:paddingBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,32 +104,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Số tiền đang giữ: "
-                android:textSize="16dp"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textColor="#212121"/>
+                android:text="Số tiền đang giữ: "
+                android:textColor="#212121"
+                android:textSize="16dp"
+                android:textStyle="normal" />
 
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="1 000 000 VND"
-                android:textSize="16dp"
                 android:ellipsize="end"
-                android:gravity="right"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textColor="#212121"/>
+                android:gravity="right"
+                android:text="1 000 000 VND"
+                android:textColor="#212121"
+                android:textSize="16dp"
+                android:textStyle="normal" />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="@color/gray_color"/>
+            android:background="@color/gray_color" />
 
 
         <!-- tien no-->
@@ -136,38 +144,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Số tiền đã nộp: "
-                android:textSize="16dp"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textColor="#212121"/>
+                android:text="Số tiền đã nộp: "
+                android:textColor="#212121"
+                android:textSize="16dp"
+                android:textStyle="normal" />
 
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="2 000 000 VND"
-                android:textSize="16dp"
                 android:ellipsize="end"
-                android:gravity="right"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textColor="#212121"/>
+                android:gravity="right"
+                android:text="2 000 000 VND"
+                android:textColor="#212121"
+                android:textSize="16dp"
+                android:textStyle="normal" />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="@color/gray_color"/>
+            android:background="@color/gray_color" />
 
     </LinearLayout>
-
-
-
-
 
 
 </LinearLayout>

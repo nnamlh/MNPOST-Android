@@ -9,7 +9,7 @@ import com.mnpost.app.util.PrefUtils;
 public class UserInfo {
 
     private String FullName;
-    private String Department;
+    private String PostOfficeID;
     private String EmployeeID;
     private String UserName;
 
@@ -36,7 +36,7 @@ public class UserInfo {
                 if (strSplit.length == 3) {
                     instance.setEmployeeID(strSplit[0]);
                     instance.setFullName(strSplit[1]);
-                    instance.setDepartment(strSplit[2]);
+                    instance.setPostOfficeID(strSplit[2]);
                 }
 
             }
@@ -58,14 +58,6 @@ public class UserInfo {
         FullName = fullName;
     }
 
-    public String getDepartment() {
-        return Department;
-    }
-
-    public void setDepartment(String department) {
-        Department = department;
-    }
-
     public String getEmployeeID() {
         return EmployeeID;
     }
@@ -80,5 +72,13 @@ public class UserInfo {
 
     public void setUserName(String userName) {
         UserName = userName;
+    }
+
+    public String getPostOfficeID() {
+        return PostOfficeID;
+    }
+
+    public void setPostOfficeID(String postOfficeID) {
+        PostOfficeID = postOfficeID;
     }
 }

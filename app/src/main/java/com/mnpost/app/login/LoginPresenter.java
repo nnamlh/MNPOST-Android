@@ -87,7 +87,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                             Toast.makeText(mLogiView.getMContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
                         } else {
                             // save user info
-                            String storeInfo = response.getEmployeeCode() + "|" + response.getFullName()+ "|" + response.getDepartment();
+                            String storeInfo = response.getEmployeeCode() + "|" + response.getFullName()+ "|" + response.getPostOfficeID();
                             PrefUtils.storeData(mLogiView.getMContext(), storeInfo, Const.USER_INFO_KEY);
                             mLogiView.nextTask();
                         }

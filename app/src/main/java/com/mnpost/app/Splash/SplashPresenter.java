@@ -95,16 +95,16 @@ public class SplashPresenter implements SplashContract.Presenter {
 
 
                     if (!TextUtils.isEmpty(firebaseID)) {
-                        String departmentID = UserInfo.getInstance(mSplashView.getMContext()).getDepartment();
+                        String departmentID = UserInfo.getInstance(mSplashView.getMContext()).getPostOfficeID();
                         if(!TextUtils.isEmpty(departmentID)) {
                             FirebaseMessaging.getInstance().unsubscribeFromTopic(departmentID);
                         }
 
-                        FirebaseMessaging.getInstance().subscribeToTopic(response.getDepartment());
+                        FirebaseMessaging.getInstance().subscribeToTopic(response.getPostOfficeID());
                     }
 
                     // save user info
-                    String storeInfo = response.getEmployeeCode() + "|" + response.getFullName()+ "|" + response.getDepartment();
+                    String storeInfo = response.getEmployeeCode() + "|" + response.getFullName()+ "|" + response.getPostOfficeID();
                     PrefUtils.storeData(mSplashView.getMContext(), storeInfo, Const.USER_INFO_KEY);
 
                     mSplashView.showNextTask();

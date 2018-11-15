@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -32,8 +33,8 @@ public class StatisticalFragment extends Fragment implements StatisticalContract
 
     @BindView(R.id.piechart)
     PieChart pieChart;
-    private float[] yData = {20, 10, 20, 21};
-    private String[] xData = {"Đã phát", "Phát không được" , "Chuyển hoàn" , "Lấy hàng"};
+
+
     @BindView(R.id.spinner_time)
     Spinner spinner;
 
@@ -57,7 +58,7 @@ public class StatisticalFragment extends Fragment implements StatisticalContract
 
         pieChart.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
         pieChart.setRotationEnabled(true);
-        pieChart.setUsePercentValues(true);
+        pieChart.setUsePercentValues(false);
         //pieChart.setHoleColor(Color.BLUE);
         //pieChart.setCenterTextColor(Color.BLACK);
         pieChart.setHoleRadius(25f);
@@ -76,23 +77,28 @@ public class StatisticalFragment extends Fragment implements StatisticalContract
         commonDataList = new ArrayList<>();
 
         CommonData data = new CommonData();
-        data.setCode("1");
-        data.setName("Trong ngày");
 
+        data.setCode("Day");
+        data.setName("Trong ngày");
         commonDataList.add(data);
 
         data = new CommonData();
-        data.setCode("2");
+        data.setCode("Yesterday");
+        data.setName("Hôm qua");
+        commonDataList.add(data);
+
+        data = new CommonData();
+        data.setCode("Week");
         data.setName("Trong tuần");
         commonDataList.add(data);
 
         data = new CommonData();
-        data.setCode("3");
+        data.setCode("Month");
         data.setName("Trong tháng");
         commonDataList.add(data);
 
         data = new CommonData();
-        data.setCode("4");
+        data.setCode("LastMonth");
         data.setName("Tháng trước");
         commonDataList.add(data);
 
@@ -100,26 +106,27 @@ public class StatisticalFragment extends Fragment implements StatisticalContract
         ReasonAdapter adapter = new ReasonAdapter(getActivity(), commonDataList);
         spinner.setAdapter(adapter);
 
-        spinner.setVisibility(View.GONE);
     }
 
     private void addDataSet() {
 
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
-        ArrayList<String> xEntrys = new ArrayList<>();
 
-        for(int i = 0; i < yData.length; i++){
-            yEntrys.add(new PieEntry(yData[i] , i));
-        }
 
-        for(int i = 1; i < xData.length; i++){
-            xEntrys.add(xData[i]);
-        }
+        yEntrys.add(new PieEntry(10 , "Đã phát"));
+
+        yEntrys.add(new PieEntry(10 , "Đang phát"));
+
+
+        yEntrys.add(new PieEntry(10 , "Chưa phát được"));
+
+        yEntrys.add(new PieEntry(10 , "Chuyển hoàn"));
 
         //create the data set
-        PieDataSet pieDataSet = new PieDataSet(yEntrys, "Trạng thái");
-        pieDataSet.setSliceSpace(2);
+        PieDataSet pieDataSet = new PieDataSet(yEntrys, "");
+        pieDataSet.setSliceSpace(0);
         pieDataSet.setValueTextSize(12);
+
 
         //add colors to dataset
         ArrayList<Integer> colors = new ArrayList<>();
@@ -137,8 +144,10 @@ public class StatisticalFragment extends Fragment implements StatisticalContract
         legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
 
         //create pie data object
+        pieChart.setDrawSliceText(false);
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
+
         pieChart.invalidate();
     }
 }

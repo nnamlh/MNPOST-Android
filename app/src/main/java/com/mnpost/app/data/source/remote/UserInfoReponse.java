@@ -14,8 +14,8 @@ public class UserInfoReponse extends ResponseInfo {
     @SerializedName("EmployeeCode")
     private String EmployeeCode;
 
-    @SerializedName("Department")
-    private String Department;
+    @SerializedName("PostOfficeID")
+    private String PostOfficeID;
     
     public String getFullName() {
         return FullName;
@@ -49,11 +49,12 @@ public class UserInfoReponse extends ResponseInfo {
         EmployeeCode = employeeCode;
     }
 
-    public String getDepartment() {
-        return Department;
+
+    public String getPostOfficeID() {
+        return PostOfficeID;
     }
 
-    public void setDepartment(String department) {
-        Department = department;
+    public void setPostOfficeID(String postOfficeID) {
+        PostOfficeID = postOfficeID;
     }
 }
