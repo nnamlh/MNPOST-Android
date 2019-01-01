@@ -119,8 +119,9 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="right"
-                android:text="1 000 000 VND"
+                android:text=""
                 android:textColor="#212121"
+                android:id="@+id/codkeep"
                 android:textSize="16dp"
                 android:textStyle="normal" />
 
@@ -159,8 +160,9 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="right"
-                android:text="2 000 000 VND"
+                android:text=""
                 android:textColor="#212121"
+                android:id="@+id/codpay"
                 android:textSize="16dp"
                 android:textStyle="normal" />
 

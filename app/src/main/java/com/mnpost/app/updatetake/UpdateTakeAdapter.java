@@ -3,10 +3,14 @@ package com.mnpost.app.updatetake;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mnpost.app.R;
@@ -22,14 +26,18 @@ public class UpdateTakeAdapter extends RecyclerView.Adapter<UpdateTakeAdapter.My
 
     AdapterListener listener;
 
+    UpdateTakeAdapter.AdapterChangeLister changeLister;
+
     List<TakeMailerDetailInfo> takeMailerDetailInfos;
 
     Context context;
 
-    public UpdateTakeAdapter(List<TakeMailerDetailInfo> takeMailerDetailInfos, Context context, UpdateTakeAdapter.AdapterListener listener) {
+    public UpdateTakeAdapter(List<TakeMailerDetailInfo> takeMailerDetailInfos, Context context, UpdateTakeAdapter.AdapterListener listener, UpdateTakeAdapter.AdapterChangeLister changeLister) {
         this.context = context;
         this.listener = listener;
         this.takeMailerDetailInfos = takeMailerDetailInfos;
+
+        this.changeLister = changeLister;
     }
 
     @NonNull
@@ -59,22 +67,48 @@ public class UpdateTakeAdapter extends RecyclerView.Adapter<UpdateTakeAdapter.My
            holder.eCoD.setText(info.getCOD());
        }
 
-        holder.eWeight.setText(info.getWeight() + " gam");
+        holder.eWeight.setText(info.getWeight());
+
+        holder.eWeight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                changeLister.onChange(position, charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         if(info.getCurrentStatusID() == 8) {
             holder.eStatus.setText("ĐÃ LẤY HÀNG");
             holder.eStatus.setTextColor(context.getResources().getColor(R.color.green));
             holder.btnTake.setVisibility(View.GONE);
         } else {
+            holder.btnTake.setVisibility(View.VISIBLE);
             holder.eStatus.setText("CHƯA LẤY HÀNG");
             holder.eStatus.setTextColor(context.getResources().getColor(R.color.red));
             holder.btnTake.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onSelected(takeMailerDetailInfos.get(position),position);
+                    listener.onSelected(takeMailerDetailInfos.get(position),position, true);
                 }
             });
         }
+
+
+        holder.btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onSelected(takeMailerDetailInfos.get(position),position, false);
+            }
+        });
     }
 
     @Override
@@ -100,13 +134,16 @@ public class UpdateTakeAdapter extends RecyclerView.Adapter<UpdateTakeAdapter.My
         TextView eReciever;
 
         @BindView(R.id.weigh)
-        TextView eWeight;
+        EditText eWeight;
 
         @BindView(R.id.status)
         TextView eStatus;
 
         @BindView(R.id.btntake)
         Button btnTake;
+
+        @BindView(R.id.btncancel)
+        ImageView btnCancel;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -117,7 +154,10 @@ public class UpdateTakeAdapter extends RecyclerView.Adapter<UpdateTakeAdapter.My
     }
 
     public interface AdapterListener {
-        void onSelected(TakeMailerDetailInfo contact, int position);
+        void onSelected(TakeMailerDetailInfo contact, int position, boolean isUpdate);
     }
 
+    public interface  AdapterChangeLister {
+        void onChange(int postion, String data);
+    }
 }

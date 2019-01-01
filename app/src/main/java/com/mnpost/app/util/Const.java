@@ -2,6 +2,7 @@ package com.mnpost.app.util;
 
 public class Const {
     public static final String BASE_URL = "http://noiboapi.miennampost.vn/";
+   // public static final String BASE_URL = "http://221.133.7.92:801/";
     public static final String BASE_URL_UPLOAD = "http://media.miennampost.vn/";
 
     // Pref key

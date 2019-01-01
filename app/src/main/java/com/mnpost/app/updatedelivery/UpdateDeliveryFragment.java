@@ -333,7 +333,7 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
 
         ePhone.setText(Utils.DeliveryInfoCurrent.getRecieverName() + "." + Utils.DeliveryInfoCurrent.getRecieverPhone());
 
-        eProvince.setText(Utils.DeliveryInfoCurrent.getRecieverProvinceID() + "-" + Utils.DeliveryInfoCurrent.getRecieverDistrictID());
+        eProvince.setText(Utils.DeliveryInfoCurrent.getRecieProvinceName() + "-" + Utils.DeliveryInfoCurrent.getReceiDistrictName()+ "-" + Utils.DeliveryInfoCurrent.getReceiWardName());
 
         eCod.setText(Utils.formatMoneyToText(Utils.DeliveryInfoCurrent.getCOD()));
     }

@@ -22,14 +22,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="Công ty hoàng thiên"
+                android:text="24/2121"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:gravity="left"
-                android:id="@+id/customer"
+                android:textColor="#000"
+                android:id="@+id/edate"
                 android:layout_below="@id/mailerid"
                 android:layout_alignParentLeft="true"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Công ty hoàng thiên"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:id="@+id/customer"
+                android:layout_below="@id/edate"
                 android:textSize="14dp"/>
 
             <TextView
@@ -78,6 +93,23 @@
                 android:layout_alignParentLeft="true"
                 android:textColor="#E53935"
                 android:textSize="14dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:text="Số lượng chưa lấy: "
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                android:id="@+id/quantity"
+                android:layout_below="@id/notes"
+                android:layout_alignParentLeft="true"
+                android:textColor="#E53935"
+                android:textSize="14dp"/>
+
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

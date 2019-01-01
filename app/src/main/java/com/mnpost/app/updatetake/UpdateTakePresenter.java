@@ -61,16 +61,15 @@ public class UpdateTakePresenter implements UpdateTakeContract.Presenter{
     }
 
     @Override
-    public void updateTakeMailer(String mailerId, final int position) {
+    public void updateTakeMailer(String mailerId, final int position, float weight) {
 
         mUpdateTakeView.showLoading(true);
         UpdateTakeMailerSend info = new UpdateTakeMailerSend();
 
         info.setDocumentId(Utils.TakeMailerInfo.getDocumentID());
+        info.setWeight(weight);
 
-        info.setMailers(new ArrayList<String>());
-
-        info.getMailers().add(mailerId);
+        info.setMailers(mailerId);
 
         mCompositeDisposable.add(apiService.updateTakeMailer(info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<ResponseInfo>(){
 
@@ -82,6 +81,37 @@ public class UpdateTakePresenter implements UpdateTakeContract.Presenter{
                     Toast.makeText(mUpdateTakeView.getMContext(), responseInfo.getMsg(), Toast.LENGTH_SHORT).show();
                 } else {
                     mUpdateTakeView.updateTake(position);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Utils.showError(e, mUpdateTakeView.getMContext());
+                mUpdateTakeView.showLoading(false);
+            }
+        }));
+    }
+
+    @Override
+    public void cancelTakeMailer(String mailerId, final int position) {
+        mUpdateTakeView.showLoading(true);
+        UpdateTakeMailerSend info = new UpdateTakeMailerSend();
+
+        info.setDocumentId(Utils.TakeMailerInfo.getDocumentID());
+
+        info.setWeight(0);
+        info.setMailers(mailerId);
+
+        mCompositeDisposable.add(apiService.cancelTakeMailer(info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<ResponseInfo>(){
+
+            @Override
+            public void onSuccess(ResponseInfo responseInfo) {
+                mUpdateTakeView.showLoading(false);
+
+                if(responseInfo.getError() == 1) {
+                    Toast.makeText(mUpdateTakeView.getMContext(), responseInfo.getMsg(), Toast.LENGTH_SHORT).show();
+                } else {
+                    mUpdateTakeView.removeTake(position);
                 }
             }
 

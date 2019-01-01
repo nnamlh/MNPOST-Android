@@ -6,6 +6,7 @@ import com.mnpost.app.data.source.remote.APIKeyResponse;
 import com.mnpost.app.data.source.remote.GetMailerDeliveryResponse;
 import com.mnpost.app.data.source.remote.ReponseListCommonInfo;
 import com.mnpost.app.data.source.remote.ResponseWithListText;
+import com.mnpost.app.data.source.remote.StatisticalResponse;
 import com.mnpost.app.data.source.remote.TakeMailerDetailResponse;
 import com.mnpost.app.data.source.remote.TakeMailerResponse;
 import com.mnpost.app.data.source.remote.UpdateDeliverySend;
@@ -70,6 +71,11 @@ public interface ApiService {
     @POST("api/MailerAPI/UpdateTakeMailer")
     Single<ResponseInfo> updateTakeMailer(@Body UpdateTakeMailerSend info);
 
+    @POST("api/MailerAPI/CancelTakeMailer")
+    Single<ResponseInfo> cancelTakeMailer(@Body UpdateTakeMailerSend info);
 
+    // statistical
+    @GET("api/MailerAPI/GetReportDelivery")
+    Single<StatisticalResponse> getReportDelivery(@Query("employeeId") String employeeId, @Query("codeTime") String codeTime);
 
 }

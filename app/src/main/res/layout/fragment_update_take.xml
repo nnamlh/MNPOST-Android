@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,79 +23,69 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/btnback"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:id="@+id/btnback"
             android:src="@drawable/ic_arrow_left_while_24dp" />
 
 
         <ImageView
+            android:id="@+id/btnscan"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:id="@+id/btnscan"
             android:src="@drawable/ic_scan_white_24dp" />
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/ecustomer"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_below="@id/ltitle"
-        android:padding="5dp"
-        android:id="@+id/lchoose"
-        android:orientation="horizontal">
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="right|center_vertical"
+        android:text="Công ty Hoang cơ"
+        android:textColor="#D50000"
+        android:textSize="14dp"
+        android:textStyle="normal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textStyle="normal"
-            android:text="Tìm thấy 5 VĐ"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:layout_alignParentLeft="true"
-            android:gravity="left|center_vertical"
-            android:id="@+id/ecount"
-            android:layout_marginLeft="5dp"
-            android:textColor="#818181"
-            android:textSize="14dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textStyle="normal"
-            android:text="Công ty Hoang cơ"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="right|center_vertical"
-            android:layout_marginRight="5dp"
-            android:id="@+id/ecustomer"
-            android:layout_alignParentRight="true"
-            android:textColor="#D50000"
-            android:textSize="14dp"/>
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/ecount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ecustomer"
+        android:layout_alignParentLeft="true"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="5dp"
+        android:text="Tìm thấy 5 VĐ"
+        android:textColor="#818181"
+        android:textSize="14dp"
+        android:textStyle="normal" />
 
     <RelativeLayout
         android:id="@+id/lsearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lchoose"
+        android:layout_below="@id/ecount"
         android:background="@color/white"
         android:padding="5dp">
 
         <EditText
+            android:id="@+id/esearch"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@drawable/input_mailer_search"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
-            android:id="@+id/esearch"
             android:textAlignment="center" />
 
     </RelativeLayout>
@@ -104,8 +93,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_below="@id/lsearch"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/lsearch">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

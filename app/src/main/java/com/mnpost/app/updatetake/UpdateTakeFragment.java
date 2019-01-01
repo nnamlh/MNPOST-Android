@@ -37,8 +37,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.View, UpdateTakeAdapter.AdapterListener{
+public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.View, UpdateTakeAdapter.AdapterListener , UpdateTakeAdapter.AdapterChangeLister{
 
 
     UpdateTakeContract.Presenter mPresenter;
@@ -70,7 +71,7 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
 
     public static UpdateTakeFragment newInstance() {
 
-        return  new UpdateTakeFragment();
+        return new UpdateTakeFragment();
     }
 
     @Nullable
@@ -83,7 +84,7 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
         ButterKnife.bind(this, view);
         takeMailerDetailInfoTemps = new ArrayList<>();
         takeMailerDetailInfos = new ArrayList<>();
-        mDapter = new UpdateTakeAdapter(takeMailerDetailInfos, getContext(), this);
+        mDapter = new UpdateTakeAdapter(takeMailerDetailInfos, getContext(), this, this);
         dLoading = new DialogLoading(getContext());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -133,9 +134,10 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
         eCustomer.setText(Utils.TakeMailerInfo.getCustomerName());
         return view;
     }
+
     @Override
     public void showLoading(boolean flag) {
-        if(flag) {
+        if (flag) {
             dLoading.show();
         } else {
             dLoading.dismiss();
@@ -144,7 +146,13 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
 
     @Override
     public void updateTake(int position) {
-        takeMailerDetailInfos.get(position).setCurrentStatusID(8);
+        takeMailerDetailInfos.remove(position);
+        mDapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void removeTake(int position) {
+        takeMailerDetailInfos.remove(position);
         mDapter.notifyDataSetChanged();
     }
 
@@ -154,6 +162,7 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
     }
 
     @Override
+    @OnClick(R.id.btnback)
     public void onBAck() {
         Utils.showDialog(getContext(), "Thông báo", "Hủy cập nhật hiện tại ?", new DialogInterface.OnClickListener() {
             @Override
@@ -202,8 +211,8 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
     @Override
     public void searchMailer(String code) {
         takeMailerDetailInfos.clear();
-        for(TakeMailerDetailInfo info: takeMailerDetailInfoTemps) {
-            if(info.getMailerID().contains(code)){
+        for (TakeMailerDetailInfo info : takeMailerDetailInfoTemps) {
+            if (info.getMailerID().contains(code)) {
                 takeMailerDetailInfos.add(info);
             }
         }
@@ -223,14 +232,45 @@ public class UpdateTakeFragment extends Fragment implements UpdateTakeContract.V
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mPresenter.unsubscribe();
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
     }
 
     @Override
-    public void onSelected(TakeMailerDetailInfo contact, int position) {
-        mPresenter.updateTakeMailer(contact.getMailerID(), position);
+    public void onSelected(final TakeMailerDetailInfo contact, final int position, boolean isUpdate) {
+        if (isUpdate) {
+            Utils.showDialog(getActivity(), "Thông báo", "Bạn đồng ý cập nhật đơn này", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    try{
+                        float value = Float.parseFloat(contact.getWeight());
+                        mPresenter.updateTakeMailer(contact.getMailerID(), position, value);
+                    } catch (Exception e) {
+
+                    }
+
+                }
+            });
+        } else {
+
+            Utils.showDialog(getActivity(), "Thông báo", "Bạn muốn hủy đơn này ?\nLưu ý việc này cần có sự đồng ý của khách hàng", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mPresenter.cancelTakeMailer(contact.getMailerID(), position);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onChange(int postion, String data) {
+        try {
+            float value = Float.parseFloat(data);
+            takeMailerDetailInfos.get(postion).setWeight(value + "");
+        } catch (Exception e){
+
+        }
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

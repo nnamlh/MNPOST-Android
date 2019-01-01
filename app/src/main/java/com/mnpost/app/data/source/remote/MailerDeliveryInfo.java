@@ -14,16 +14,29 @@ public class MailerDeliveryInfo {
     private String MailerID;
     @SerializedName("COD")
     private float COD;
+
     @SerializedName("RecieverAddress")
     private String RecieverAddress;
     @SerializedName("RecieverProvinceID")
     private String RecieverProvinceID;
     @SerializedName("RecieverPhone")
     private String RecieverPhone;
+
+
+
     @SerializedName("RecieverName")
+
     private String RecieverName;
     @SerializedName("RecieverDistrictID")
     private String RecieverDistrictID;
+
+    @SerializedName("ReceiDistrictName")
+    private String ReceiDistrictName;
+
+    @SerializedName("RecieProvinceName")
+    private String RecieProvinceName;
+    @SerializedName("ReceiWardName")
+    private String ReceiWardName;
 
     @SerializedName("DeliveryNotes")
     private String DeliveryNotes ;
@@ -36,6 +49,9 @@ public class MailerDeliveryInfo {
 
     @SerializedName("CurrentStatusID")
     private int CurrentStatusID;
+
+    @SerializedName("MailerTypeID")
+    private String MailerTypeID;
 
     public String getDeliveryNotes() {
         return DeliveryNotes;
@@ -155,5 +171,37 @@ public class MailerDeliveryInfo {
 
     public void setCurrentStatusID(int currentStatusID) {
         CurrentStatusID = currentStatusID;
+    }
+
+    public String getReceiDistrictName() {
+        return ReceiDistrictName;
+    }
+
+    public void setReceiDistrictName(String receiDistrictName) {
+        ReceiDistrictName = receiDistrictName;
+    }
+
+    public String getRecieProvinceName() {
+        return RecieProvinceName;
+    }
+
+    public void setRecieProvinceName(String recieProvinceName) {
+        RecieProvinceName = recieProvinceName;
+    }
+
+    public String getReceiWardName() {
+        return ReceiWardName;
+    }
+
+    public void setReceiWardName(String receiWardName) {
+        ReceiWardName = receiWardName;
+    }
+
+    public String getMailerTypeID() {
+        return MailerTypeID;
+    }
+
+    public void setMailerTypeID(String mailerTypeID) {
+        MailerTypeID = mailerTypeID;
     }
 }

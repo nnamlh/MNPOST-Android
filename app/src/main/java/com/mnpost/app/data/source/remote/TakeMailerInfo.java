@@ -18,8 +18,9 @@ public class TakeMailerInfo {
     private String Content;
     @SerializedName("CustomerName")
     private String CustomerName;
-    @SerializedName("EmployeeName")
-    private String EmployeeName;
+
+    @SerializedName("AllMailer")
+    private String AllMailer;
 
     public String getDocumentID() {
         return DocumentID;
@@ -77,11 +78,11 @@ public class TakeMailerInfo {
         CustomerName = customerName;
     }
 
-    public String getEmployeeName() {
-        return EmployeeName;
+    public String getAllMailer() {
+        return AllMailer;
     }
 
-    public void setEmployeeName(String employeeName) {
-        EmployeeName = employeeName;
+    public void setAllMailer(String allMailer) {
+        AllMailer = allMailer;
     }
 }

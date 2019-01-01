@@ -42,11 +42,15 @@ public class TakeMailerAdapter extends RecyclerView.Adapter<TakeMailerAdapter.My
 
         holder.eCustomer.setText(info.getCustomerName());
 
-        holder.ePhone.setText("sdt: " + info.getCustomerAddress());
+        holder.ePhone.setText("sdt: " + info.getCustomerPhone());
 
         holder.eAddress.setText(info.getCustomerAddress());
 
         holder.eNotes.setText(info.getContent());
+
+        holder.eQuantity.setText("Số lượng chưa lấy: " + info.getAllMailer());
+
+        holder.eDate.setText(info.getCreateTime());
     }
 
     @Override
@@ -68,6 +72,12 @@ public class TakeMailerAdapter extends RecyclerView.Adapter<TakeMailerAdapter.My
 
         @BindView(R.id.notes)
         TextView eNotes;
+
+        @BindView(R.id.quantity)
+        TextView eQuantity;
+
+        @BindView(R.id.edate)
+        TextView eDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);

@@ -53,9 +53,9 @@ public class DeliveryHistoryAdapter extends RecyclerView.Adapter<DeliveryHistory
 
         holder.eCoD.setText(Utils.formatMoneyToText(info.getCOD()));
 
-        holder.eProvince.setText(info.getRecieverProvinceID());
+        holder.eProvince.setText(info.getRecieProvinceName());
 
-        holder.eDistrict.setText(info.getRecieverDistrictID());
+        holder.eDistrict.setText(info.getReceiDistrictName());
 
         holder.eTime.setText("Ngày phát: " + info.getDeliveryDate() + " " + info.getDeliveryTime());
 

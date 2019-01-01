@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mnpost.app.R;
@@ -52,11 +53,21 @@ public class MailerDeliveryAdapter extends RecyclerView.Adapter<MailerDeliveryAd
 
         holder.eCoD.setText(Utils.formatMoneyToText(info.getCOD()));
 
-        holder.eProvince.setText(info.getRecieverProvinceID());
+        holder.eProvince.setText(info.getRecieProvinceName());
 
-        holder.eDistrict.setText(info.getRecieverDistrictID());
+        holder.eDistrict.setText(info.getReceiDistrictName());
 
         holder.eTime.setText(info.getDocumentDate());
+
+        holder.eWard.setText(info.getReceiWardName());
+
+        holder.eMailerType.setText(info.getMailerTypeID());
+
+        if(info.getMailerTypeID().equals("HT")) {
+            holder.imgFast.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgFast.setVisibility(View.GONE);
+        }
 }
 
     @Override
@@ -87,6 +98,15 @@ public class MailerDeliveryAdapter extends RecyclerView.Adapter<MailerDeliveryAd
 
         @BindView(R.id.time)
         TextView eTime;
+
+        @BindView(R.id.ward)
+        TextView eWard;
+
+        @BindView(R.id.mailertype)
+        TextView eMailerType;
+
+        @BindView(R.id.imgfast)
+        ImageView imgFast;
 
         public MyViewHolder(View itemView) {
             super(itemView);

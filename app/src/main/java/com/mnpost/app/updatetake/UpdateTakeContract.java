@@ -26,11 +26,15 @@ public class UpdateTakeContract {
         void showLoading(boolean flag);
 
         void updateTake(int position);
+
+        void removeTake(int position);
     }
 
     interface Presenter extends BasePresenter {
 
-        void updateTakeMailer(String mailerId, int position);
+        void updateTakeMailer(String mailerId, int position, float weight);
+
+        void cancelTakeMailer(String mailerId, int position);
 
     }
 }
