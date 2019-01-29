@@ -42,9 +42,10 @@
                 android:gravity="right"
                 android:id="@+id/phone"
                 android:maxLines="1"
+                android:layout_alignParentLeft="true"
                 android:textColor="#3D5AFE"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/mailerid"
                 android:textSize="14dp"/>
 
             <TextView
@@ -57,7 +58,7 @@
                 android:gravity="left"
                 android:layout_marginTop="10dp"
                 android:id="@+id/address"
-                android:layout_below="@id/mailerid"
+                android:layout_below="@id/phone"
                 android:layout_alignParentLeft="true"
                 android:textColor="#818181"
                 android:textSize="14dp"/>
@@ -78,7 +79,6 @@
                     android:layout_height="wrap_content"
                     android:textStyle="normal"
                     android:text="HCM"
-                    android:ellipsize="end"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="left"
                     android:id="@+id/province"
@@ -91,7 +91,6 @@
                     android:layout_height="wrap_content"
                     android:textStyle="normal"
                     android:text="Quận 1"
-                    android:ellipsize="end"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:id="@+id/district"

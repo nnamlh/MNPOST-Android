@@ -51,7 +51,13 @@ public class MailerDeliveryAdapter extends RecyclerView.Adapter<MailerDeliveryAd
 
         holder.eAddress.setText(info.getRecieverAddress());
 
-        holder.eCoD.setText(Utils.formatMoneyToText(info.getCOD()));
+
+
+        if("NNTT".equals(info.getPaymentMethodID())){
+            holder.eCoD.setText(Utils.formatMoneyToText(info.getCOD() + info.getAmount()));
+        } else {
+            holder.eCoD.setText(Utils.formatMoneyToText(info.getCOD()));
+        }
 
         holder.eProvince.setText(info.getRecieProvinceName());
 

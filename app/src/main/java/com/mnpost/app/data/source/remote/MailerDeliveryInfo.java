@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class MailerDeliveryInfo {
 
+    @SerializedName("DetailId")
+    private String DetailId;
+
     @SerializedName("DocumentID")
     private String DocumentID;
     @SerializedName("DocumentDate")
@@ -14,6 +17,12 @@ public class MailerDeliveryInfo {
     private String MailerID;
     @SerializedName("COD")
     private float COD;
+
+    @SerializedName("Amount")
+    private float Amount;
+
+    @SerializedName("PaymentMethodID")
+    private String PaymentMethodID;
 
     @SerializedName("RecieverAddress")
     private String RecieverAddress;
@@ -203,5 +212,29 @@ public class MailerDeliveryInfo {
 
     public void setMailerTypeID(String mailerTypeID) {
         MailerTypeID = mailerTypeID;
+    }
+
+    public String getDetailId() {
+        return DetailId;
+    }
+
+    public void setDetailId(String detailId) {
+        DetailId = detailId;
+    }
+
+    public float getAmount() {
+        return Amount;
+    }
+
+    public void setAmount(float amount) {
+        Amount = amount;
+    }
+
+    public String getPaymentMethodID() {
+        return PaymentMethodID;
+    }
+
+    public void setPaymentMethodID(String paymentMethodID) {
+        PaymentMethodID = paymentMethodID;
     }
 }

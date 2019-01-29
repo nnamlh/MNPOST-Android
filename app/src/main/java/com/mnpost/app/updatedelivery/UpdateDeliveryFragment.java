@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -208,19 +209,29 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
                 if (checkedId == R.id.radio_finish) {
                     spinner.setVisibility(View.GONE);
                     statusChoose = 4;
-                    eReciver.setEnabled(true);
-                    eNote.setEnabled(false);
+                    eReciver.setVisibility(View.VISIBLE);
                 } else if (checkedId == R.id.radio_nofinish) {
                     spinner.setVisibility(View.GONE);
                     statusChoose = 6;
-                    eReciver.setEnabled(false);
-                    eNote.setEnabled(true);
+                    eReciver.setVisibility(View.GONE);
                 } else if (checkedId == R.id.radio_return) {
                     statusChoose = 5;
-                    eReciver.setEnabled(false);
-                    eNote.setEnabled(false);
+                    eReciver.setVisibility(View.GONE);
+
                     spinner.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                eNote.setText(commonDataList.get(i).getName());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -336,6 +347,12 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
         eProvince.setText(Utils.DeliveryInfoCurrent.getRecieProvinceName() + "-" + Utils.DeliveryInfoCurrent.getReceiDistrictName()+ "-" + Utils.DeliveryInfoCurrent.getReceiWardName());
 
         eCod.setText(Utils.formatMoneyToText(Utils.DeliveryInfoCurrent.getCOD()));
+
+        if("NNTT".equals(Utils.DeliveryInfoCurrent.getPaymentMethodID())){
+            eCod.setText(Utils.formatMoneyToText(Utils.DeliveryInfoCurrent.getCOD() + Utils.DeliveryInfoCurrent.getAmount()));
+        } else {
+            eCod.setText(Utils.formatMoneyToText(Utils.DeliveryInfoCurrent.getCOD()));
+        }
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.mnpost.app.R;
 import com.mnpost.app.data.source.ResponseInfo;
 import com.mnpost.app.main.mailer.MailerFragment;
 import com.mnpost.app.main.mailer.MailerPresenter;
+import com.mnpost.app.main.notice.NoticeFragment;
 import com.mnpost.app.main.setting.SettingFragment;
 import com.mnpost.app.main.setting.SettingPresenter;
 import com.mnpost.app.main.statistical.StatisticalFragment;
@@ -76,6 +77,8 @@ public class MainActivity extends BaseActivity {
                     navigation.getMenu().findItem(R.id.home).setChecked(true);
                     break;
                 case R.id.notification:
+                    NoticeFragment noticeFragment = NoticeFragment.getInstance();
+                    ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), noticeFragment, R.id.contentFrame);
                     navigation.getMenu().findItem(R.id.notification).setChecked(true);
                     break;
                 case R.id.mailer:
