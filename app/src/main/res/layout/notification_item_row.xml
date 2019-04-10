@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/ic_logo" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:fontFamily="sans-serif-light"
+        android:text="Cong ty HAI"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/messenge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/image"
+        android:fontFamily="sans-serif-light"
+        android:text="Thong bao cong ty HAI"
+        android:textColor="#000000"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/messenge"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/image"
+        android:fontFamily="sans-serif-light"
+        android:text="12:20 13/9/2017"
+        android:textColor="@color/colorAccent"
+        android:textSize="11dp" />
+</RelativeLayout>

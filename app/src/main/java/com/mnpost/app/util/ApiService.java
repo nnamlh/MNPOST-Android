@@ -5,6 +5,7 @@ import com.mnpost.app.data.source.ResponseInfo;
 import com.mnpost.app.data.source.remote.APIKeyResponse;
 import com.mnpost.app.data.source.remote.GetMailerDeliveryResponse;
 import com.mnpost.app.data.source.remote.ReponseListCommonInfo;
+import com.mnpost.app.data.source.remote.ResponseNotices;
 import com.mnpost.app.data.source.remote.ResponseWithListText;
 import com.mnpost.app.data.source.remote.StatisticalResponse;
 import com.mnpost.app.data.source.remote.TakeMailerDetailResponse;
@@ -78,4 +79,8 @@ public interface ApiService {
     @GET("api/MailerAPI/GetReportDelivery")
     Single<StatisticalResponse> getReportDelivery(@Query("employeeId") String employeeId, @Query("codeTime") String codeTime);
 
+
+    // notic
+    @GET("api/userapi/GetNotice")
+    Single<ResponseNotices> getNotices();
 }

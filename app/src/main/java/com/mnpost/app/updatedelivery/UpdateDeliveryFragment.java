@@ -161,7 +161,7 @@ public class UpdateDeliveryFragment extends Fragment implements UpdateDeliveryCo
         ButterKnife.bind(this, view);
 
         eReciver.setEnabled(true);
-        eNote.setEnabled(false);
+      //  eNote.setEnabled(false);
 
         btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
